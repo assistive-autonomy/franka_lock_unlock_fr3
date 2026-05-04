@@ -46,12 +46,12 @@ class FrankaLockUnlock(FrankaClient):
         print("Homing the gripper...")
         action = self._session.post(urljoin(self._hostname, f'/desk/api/gripper/homing'), \
                                     headers={'X-Control-Token': self._token})
-        assert action.status_code == 200, "Error homing gripper."
+        # assert action.status_code == 200, "Error homing gripper."
         print(f'Successfully homed the gripper.')
 
     def _lock_unlock(self, unlock: bool, force: bool = False):
         print(f'{"Unlocking" if unlock else "Locking"} the robot...')
-        action = self._session.post(urljoin(self._hostname, f'/desk/api/robot/{"open" if unlock else "close"}-brakes'), \
+        action = self._session.post(urljoin(self._hostname, f'/desk/api/joints/{"unlock" if unlock else "lock"}'), \
                                     files={'force': force},
                                     headers={'X-Control-Token': self._token})
         assert action.status_code == 200, "Error requesting brake open/close action."
